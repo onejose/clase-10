@@ -76,7 +76,7 @@ repeat{
        print(m) # pintar el número sobre la consola
        if (m <= 8){ # condicionar a que ese número sea menor o igual a 8
            print("Este numero es menor a 8") # detener el loop si m es menor o igual a 8 
-       next
+       break
          } 
 }
 cat("Hacer ejemplo en clase")
@@ -102,10 +102,15 @@ df = tibble(cod_mpio = c(5001,5002,5003,5004,5005,5006),
             violencia_2019  = c(0.01,0.02,0.02,0.03,0.03,0.01))
 
 cat("Hacer ejemplo usando la posicion de la columna")
-
-
+df2 = df 
+for (v in 2:ncol(df2)){
+  df2[,v] = df2[,v]*100
+}
 cat("Hacer ejemplo usando el vector de nombres")
-
+df3 = df2
+for (v in 2:ncol(df3)){
+  df3[,v] = df3[,v]/mean(df3[,v])
+}
 
 #=============================#
 #=== 2. Controles de flujo ===#         
@@ -146,23 +151,58 @@ rutas = list.files("input/chip",full.names = T , recursive = T)
 
 #----------------------#
 ## 2. Hacer ejemplo para una observación
+archivos = list.files("input/chip/",recursive = T, full.names = T)
 
 ## 2.1. Leer archivo
+df_i = import (archivos[20], col_names=F)
 
 ## 2.2. Obtener codigo-DANE 
+name_i = df_i[1,1]
+name_i
 
 ## 2.3. Obtener tipo de inversion
+Tipo_i = df_i[10,2]
+Tipo_i
 
 ## 2.4. Obtener valor
+inv_i = df_i[10,4]
+inv_i
 
+fecha_i = df_i[3,1]
 ## 2.5. Exportar resultados
+data_i=tibble(name=rep(NA,1),Tipo=rep(NA,1), inversion=rep(NA,1),fecha=rep(NA,1))
+data_i
+data_i$name = name_i
+data_i$Tipo = Tipo_i
+data_i$inv = inv_i
+data_i$fecha = fecha_i
+datos_inv[[i]]=data_i
 
 #----------------------#
 ## 3. Generalizar loop
+for (i in 1:length(archivos)){
+df_i = import (archivos[i], col_names=F)
 
+name_i = df_i[1,1]
+name_i
 
+Tipo_i = df_i[10,2]
+Tipo_i
 
+inv_i = df_i[10,4]
+inv_i
 
+fecha_i = df_i[3,1]
+
+data_i=tibble(name=rep(NA,1),Tipo=rep(NA,1), inversion=rep(NA,1),fecha=rep(NA,1))
+data_i
+data_i$name = name_i
+data_i$Tipo = Tipo_i
+data_i$inv = inv_i
+data_i$fecha = fecha_i
+data_i
+}
+tabla = rbindlist(l = datos_inversion, use.names = )
 
 
 
